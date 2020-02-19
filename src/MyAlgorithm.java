@@ -13,24 +13,19 @@ public class MyAlgorithm {
      */
     public static int[][] impAlgo(int[][] inputArray) {
 
-        // Create new array for output;
-        int[][] outputArray = new int[5][5];
-
         /*
          Only iterate through rows, since we are unconcerned with any columns
          save for the first one in each row (each internal array of 'inputArray');
         */
-        for (int row = 0; row < 5; row++) {
+        for (int row = 0; row < 4; row++) {
             int remainder;
+            int windex = 0;
             /*
              Initialize min to the value of the first element of the first array in
              our inputArray;
              Use 'min' to compare the values of the first elements of each internal array;
             */
             int min = inputArray[row][0];
-            // 'windex' will be used to store the row index of the next array to
-            // place in outArray;
-            int windex = 0;
             // Selection sort: search rest of array for next minimum element at head;
             for (remainder = row + 1; remainder < 5; remainder++) {
                 // Test next first value of internal array against min;
@@ -41,24 +36,28 @@ public class MyAlgorithm {
                     windex = remainder;
                 }
             }
-
-            // Copy elements in winning row
-            // of internal array to next internal array in outputArray;
-            for (int col = 0; col < 5; col++) {
-                outputArray[row][col] = inputArray[windex][col];
+            // Put the next min array into the first, sorted part of the overarching array;
+            for(int col = 0; col < 5; col++) {
+                // Two temp variables to hold value at current col of next min row;
+                int tempMin = inputArray[windex][col];
+                int tempRow = inputArray[row][col];
+                // Swap the arrays at [row] and [windex];
+                inputArray[row][col] = tempMin;
+                inputArray[windex][col] = tempRow;
             }
+            // Continue search new, unsorted remainder of the inputArray;
+        }
 
-            // Print stuff:
-            // Fencepost: print first item in list with opening curly brace;
-//            System.out.print("{" + outputArray[row][0] + ",");
+//            // Print stuff:
+//            // Fencepost: print first item in list with opening curly brace;
+//            System.out.print("{" + inputArray[row][0] + ",");
 //            // Print middle of next inner array, comma-separated;
 //            for (int col = 1; col < 4; col++) {
-//                System.out.print(outputArray[row][col] + ",");
+//                System.out.print(inputArray[row][col] + ",");
 //            }
 //            // Fencepost end: print last value in inner array, close with curly brace;
-//            System.out.println(outputArray[row][4] + "}");
-        }
-        return outputArray;
+//            System.out.println(inputArray[row][4] + "}");
+        return inputArray;
     }
 
     /**
